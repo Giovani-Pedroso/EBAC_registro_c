@@ -15,6 +15,7 @@ int consultarNome();
 int deletarNome();
 int errorMessage();
 void linuxPause();
+char *getPath(char *cpf);
 
 int main() {
   setlocale(LC_ALL, "Portuguese");
@@ -28,6 +29,7 @@ int main() {
     // system("cls");
     system("clear");
 
+    // Menu
     printf("### Cartorio da EBAC ### \n\n");
     printf("Escolha a opção desejada \n\n");
     printf("\t 1 - Registrar nome \n");
@@ -35,10 +37,12 @@ int main() {
     printf("\t 3 - Deletar nome \n");
     printf("\t 0 - Fechar o programa \n");
 
+    printf("\nOpção: ");
     scanf("%s", answer);
     // To avoid the buffer overfollow
     char ans = getchar();
 
+    // Select the option
     switch (answer[0]) {
     case '1':
       registarNome();
@@ -54,7 +58,6 @@ int main() {
     default:
       errorMessage();
     }
-    /* printf("\n\nSoftware open source\n"); */
   }
   return 0;
 }
@@ -86,18 +89,18 @@ int registarNome() {
   // Create a file with the same name that the cpf
   // in the folder data you must create the folder
   FILE *file;
+
   // create the file ./data/[cpf].csv
-  char path[100];
   // You need to create the folder "data" in your system
+  char path[100] = "";
   strcat(path, "./data/");
   strcat(path, cpf);
   strcat(path, ".csv");
-
   file = fopen(path, "w");
 
-  // Print the cpf in the file
-
+  // Add a ","
   strcat(cpf, ",");
+  // Print the cpf in the file
   fprintf(file, cpf);
 
   /* // pirnt the name in the file */
@@ -136,7 +139,8 @@ int consultarNome() {
   char c = getchar();
 
   FILE *file;
-  char path[40];
+  char path[40] = "";
+
   strcat(path, "./data/");
   strcat(path, cpf);
   strcat(path, ".csv");
@@ -144,7 +148,7 @@ int consultarNome() {
   file = fopen(path, "r");
 
   if (file == NULL) {
-    printf("CPF não encontrado");
+    printf("\nCPF não encontrado");
     linuxPause();
     return 0;
   }
@@ -161,10 +165,27 @@ int consultarNome() {
 }
 
 int deletarNome() {
-  printf("Você escolheu deletar um nome");
+  char cpf[40] = "";
+  printf("\n\nDigite o CPF a ser deletado: ");
+  scanf("%s", cpf);
+  char c = getchar();
 
-  // Does not works on linux
-  /* system("pause"); */
+  FILE *file;
+  char path[40] = "";
+  strcat(path, "./data/");
+  strcat(path, cpf);
+  strcat(path, ".csv");
+
+  file = fopen(path, "r");
+
+  if (file == NULL) {
+    printf("\nO arquivo não se encontar no sistema");
+  } else {
+    fclose(file);
+    printf("\nO usuario foi deletado");
+    remove(path);
+  }
+
   linuxPause();
   return 0;
 }
