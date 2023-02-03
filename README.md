@@ -1,4 +1,6 @@
-# int main [x]
+# int main [ ]
+
+O cliente relatou mal funcionamento do codigo quando executado em computadores com o sistema operacional Windows o codigo ja foi corrigido e renviado para o cliente o desenvolvedor está aguardando o retorno do cliente
 
 ## registarNome [x]
 
