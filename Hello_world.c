@@ -111,8 +111,6 @@ int registarNome() {
     mkdir("data");
   }
 
-
-
   // Create a file with the same name that the cpf
   // in the folder data you must create the folder
   FILE *file;
