@@ -4,12 +4,12 @@
  * @brief          : First steps
  ******************************************************************************
  */
+#include <dirent.h>
+#include <errno.h>
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <dirent.h>
-#include <errno.h>
 
 #ifdef _WIN32
 #define SEPARATOR "\\"
@@ -17,7 +17,7 @@
 #endif
 
 #ifdef _WIN64
-#define SEPARATOR  "\\"
+#define SEPARATOR "\\"
 #define CLEAR "cls"
 #endif
 
@@ -41,8 +41,24 @@ char *getPath(char *cpf);
 
 int main() {
   setlocale(LC_ALL, "Portuguese");
+  system(CLEAR);
 
   char answer[5];
+  char password[20] = "";
+  printf("### Cartorio da EBAC ### \n\n");
+  printf("\nDigite a senha para assesar o banco de dados: ");
+  scanf("%s", password);
+  char x = getchar();
+
+  // Verify if the user has the password
+  // to access the database, if not
+  // the program will close itself
+  if (strcmp(password, "admin")) {
+    printf("\nSenha incorreta\n");
+    linuxPause();
+    return 0;
+  }
+
   // super loop
   while (1) {
 
@@ -54,7 +70,7 @@ int main() {
     printf("\t 1 - Registrar nome \n");
     printf("\t 2 - Consultar nome \n");
     printf("\t 3 - Deletar nome \n");
-    printf("\t 0 - Fechar o programa \n");
+    printf("\n\t 0 - Fechar o programa \n");
 
     printf("\nOpção: ");
     scanf("%s", answer);
@@ -103,11 +119,11 @@ int registarNome() {
   // To avoid the buffer overfollow
   char c = getchar();
 
-  //Checks withe the data directory exits
-  DIR* dir = opendir("data");
-  //If not creates the directory
+  // Checks withe the data directory exits
+  DIR *dir = opendir("data");
+  // If not creates the directory
   if (ENOENT == errno) {
-		//Ignore the warning message
+    // Ignore the warning message
     mkdir("data");
   }
 
