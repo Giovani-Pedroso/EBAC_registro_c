@@ -45,6 +45,7 @@ int main() {
 
   char answer[5];
   char password[20] = "";
+  /*
   printf("### Cartorio da EBAC ### \n\n");
   printf("\nDigite a senha para assesar o banco de dados: ");
   scanf("%s", password);
@@ -58,6 +59,7 @@ int main() {
     linuxPause();
     return 0;
   }
+  */
 
   // super loop
   while (1) {
@@ -167,7 +169,18 @@ int registarNome() {
   fprintf(file, strcat(cargo, ","));
   fclose(file);
 
-  linuxPause();
+  printf("\n\nDeseja inserir outro nome [s/n] ?: ");
+  char resposta[10]="";
+  scanf("%s", resposta);
+  char y = getchar();
+  if(resposta[0] == 's' || resposta == 'S') registarNome();
+  else if (resposta[0] == 'n' || resposta[0] == "N") return 0;
+  else{
+    printf("Respos ta invalida voltando ao menu");
+    linuxPause();
+    return 0;
+  }
+  //linuxPause();
 
   return 0;
 }
