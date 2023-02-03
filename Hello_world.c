@@ -8,6 +8,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
+#include <errno.h>
+
+#ifdef _WIN32
+#define SEPARATOR "\\"
+#define CLEAR "cls"
+#endif
+
+#ifdef _WIN64
+#define SEPARATOR  "\\"
+#define CLEAR "cls"
+#endif
+
+#ifdef __APPLE__
+#define SEPARATOR "/"
+#define CLEAR "clear"
+#endif
+
+#ifdef __linux__
+#define SEPARATOR "/"
+#define CLEAR "clear"
+#endif
 
 // Function's declaration
 int registarNome();
@@ -21,13 +43,10 @@ int main() {
   setlocale(LC_ALL, "Portuguese");
 
   char answer[5];
-
   // super loop
   while (1) {
 
-    // This does not works on linux
-    // system("cls");
-    system("clear");
+    system(CLEAR);
 
     // Menu
     printf("### Cartorio da EBAC ### \n\n");
@@ -84,7 +103,15 @@ int registarNome() {
   // To avoid the buffer overfollow
   char c = getchar();
 
-  strcpy(arquivo, cpf);
+  //Checks withe the data directory exits
+  DIR* dir = opendir("data");
+  //If not creates the directory
+  if (ENOENT == errno) {
+		//Ignore the warning message
+    mkdir("data");
+  }
+
+
 
   // Create a file with the same name that the cpf
   // in the folder data you must create the folder
@@ -93,7 +120,10 @@ int registarNome() {
   // create the file ./data/[cpf].csv
   // You need to create the folder "data" in your system
   char path[100] = "";
-  strcat(path, "./data/");
+  strcat(path, ".");
+  strcat(path, SEPARATOR);
+  strcat(path, "data");
+  strcat(path, SEPARATOR);
   strcat(path, cpf);
   strcat(path, ".csv");
   file = fopen(path, "w");
@@ -141,7 +171,10 @@ int consultarNome() {
   FILE *file;
   char path[40] = "";
 
-  strcat(path, "./data/");
+  strcat(path, ".");
+  strcat(path, SEPARATOR);
+  strcat(path, "data");
+  strcat(path, SEPARATOR);
   strcat(path, cpf);
   strcat(path, ".csv");
 
@@ -172,7 +205,10 @@ int deletarNome() {
 
   FILE *file;
   char path[40] = "";
-  strcat(path, "./data/");
+  strcat(path, ".");
+  strcat(path, SEPARATOR);
+  strcat(path, "data");
+  strcat(path, SEPARATOR);
   strcat(path, cpf);
   strcat(path, ".csv");
 
